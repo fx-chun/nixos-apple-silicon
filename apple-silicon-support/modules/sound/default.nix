@@ -73,10 +73,6 @@
                       else prev.asahi-audio-1_x;
       })];
     }
-    (lib.optionalAttrs (lib.versionAtLeast pkgs.wireplumber.version "0.5.0") {
-      # wireplumber 0.5 looks for scripts in datadirs only
-      systemd.user.services.wireplumber.environment.XDG_DATA_DIRS = "${asahi-audio}/share";
-    })
     (lib.optionalAttrs newHotness {
       # use configPackages and friends to install asahi-audio and plugins
       services.pipewire = {
@@ -96,6 +92,9 @@
 
       systemd.user.services.pipewire.environment.LV2_PATH = lv2Path;
       systemd.user.services.wireplumber.environment.LV2_PATH = lv2Path;
+
+      # wireplumber 0.5 looks for scripts in datadirs only
+      systemd.user.services.wireplumber.environment.XDG_DATA_DIRS = "${asahi-audio}/share";
     })
   ]);
 }
